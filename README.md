@@ -1,185 +1,162 @@
-```markdown
-# Agricultural Commodity Price Forecasting in Bangladesh
+AGRICULTURAL COMMODITY PRICE FORECASTING IN BANGLADESH
+========================================================
 
-## Overview
+OVERVIEW
 
 This repository provides the official implementation and replication package for the paper:
 
-**"Agricultural Commodity Price Forecasting in Bangladesh: A Comparative Multi-Model Study with Statistical Significance Testing"**  
-*Accepted at ICEFONT 2026.*
+"Agricultural Commodity Price Forecasting in Bangladesh: A Comparative Multi-Model Study with Statistical Significance Testing"
+Accepted at ICEFONT 2026.
 
-The study benchmarks eight forecasting models: ARIMA, Support Vector Regression (SVR), Multi-Layer Perceptron (MLP), Simple Recurrent Neural Network (RNN), Long Short-Term Memory (LSTM), Gated Recurrent Unit (GRU), XGBoost, and Echo State Network (ESN). It uses weekly wholesale price data of six agricultural commodities in Bangladesh collected from the Directorate of Agricultural Marketing (DAM) covering January 2022 to February 2026 across all divisions, districts, and market locations.
+The study benchmarks eight forecasting models: ARIMA, Support Vector Regression (SVR), Multi-Layer Perceptron (MLP), Simple Recurrent Neural Network (RNN), Long Short-Term Memory (LSTM), Gated Recurrent Unit (GRU), XGBoost, and Echo State Network (ESN). Weekly wholesale price data of six agricultural commodities in Bangladesh are used. Data are sourced from the Bangladesh Directorate of Agricultural Marketing (DAM) covering January 2022 to February 2026 across all eight administrative divisions, 64 districts, and more than 400 market locations. All model comparisons are validated with Diebold-Mariano statistical significance tests.
 
-Key results show that GRU achieves the lowest MAPE for three commodities (Onion, Gram, Egg Duck-Local), while RNN provides the best overall average performance (12.94%). Deep learning models significantly outperform ARIMA and SVR on high-volatility series (p < 0.05).
+Key outcomes: GRU achieves the lowest MAPE for three commodities (Onion, Gram, Egg Duck-Local), while RNN records the lowest average MAPE (12.94%) across all series. Deep learning models demonstrate statistically significant superiority (p < 0.05) over ARIMA and SVR on high-volatility series (CV > 0.4).
 
----
-
-## Repository Structure
-
-```
+REPOSITORY STRUCTURE
 
 Agricultural-Commodity-Price-Forecasting-in-Bangladesh/
-
-├── Dataset/
-│   ├── Onion_local.csv
+│
+├── Dataset/                              # Raw weekly price data (CSV)
+│   ├── Onion (local).csv
 │   ├── Tomato.csv
-│   ├── Rice_Boro_Hybrid_Medium.csv
-│   ├── Dal_Gram_broken.csv
-│   ├── Egg_Farm_Red.csv
-│   └── Egg_Duck_Local.csv
+│   ├── Rice - Boro - Hybrid - Medium.csv
+│   ├── Dal Gram (broken).csv
+│   ├── Egg Farm-Red.csv
+│   └── Egg Duck-Local.csv
 │
-├── codes/
-│   ├── Each_commodity_EDA_Model_Analysis.ipynb
-│   └── Final_Pipeline_Conference.ipynb
+├── codes/                                # Jupyter notebooks
+│   ├── Each_commodity_EDA_+_Each_Model_Result_Analysis.ipynb
+│   └── Final_Pipeline_(Conference_Paper).ipynb
 │
-├── paper.pdf
-└── README.md
+├── ICEFONT_2026_Rumman_paper_v1_2.pdf    # Full conference paper
+└── README.md                             # This file
 
-````
+DATASET DESCRIPTION
 
----
+Each CSV file contains weekly wholesale price records for a single commodity. The raw data are obtained from the Bangladesh Directorate of Agricultural Marketing (DAM). Preprocessing steps (as detailed in the paper) include:
 
-## Dataset Description
+- Removal of duplicate records.
+- Parsing of weekly minimum and maximum wholesale prices.
+- Computation of the midpoint wholesale price: Price = (Wholesale Min + Wholesale Max) / 2.
+- Construction of a datetime index from Year, Month, and Week fields.
+- Min-Max normalization to [0,1] fitted exclusively on the training set to prevent data leakage.
 
-Each dataset contains weekly wholesale prices for a single commodity.
+Stationarity is assessed using both Augmented Dickey-Fuller (ADF) and KPSS tests. The dataset spans a four-year period (2022–2026) that captures post-COVID supply chain recovery, the 2022–2023 energy and import price shock, and the 2024–2025 price normalisation phase.
 
-### Preprocessing Steps
+The six commodities and their volatility characteristics (coefficient of variation, CV) are:
 
-- Removed duplicate records  
-- Computed midpoint price:  
-  `Price = (Wholesale Min + Wholesale Max) / 2`  
-- Created datetime index from Year, Month, Week  
-- Applied Min-Max normalization on training data only  
+Commodity            Category   CV Range   Volatility Level
+Onion (local)        Spice      > 0.4      High
+Tomato               Vegetable  > 0.4      High
+Rice (Boro Hybrid)   Cereal     ~ 0.095    Low
+Gram (broken)        Pulse      ~ 0.30     Medium
+Egg Farm-Red         Protein    ~ 0.25     Medium
+Egg Duck-Local       Protein    ~ 0.10     Low
 
-Stationarity is tested using ADF and KPSS.
+MODELS IMPLEMENTED
 
-### Commodity Characteristics
+All models follow a supervised time-series formulation: given the last T lagged price observations (T = 10 weeks), predict the next price (one-step-ahead forecasting). No external covariates (weather, trade volumes, policy signals) are used; only lagged prices serve as input features.
 
-| Commodity        | Category   | Volatility |
-|------------------|------------|------------|
-| Onion (local)    | Spice      | High       |
-| Tomato           | Vegetable  | High       |
-| Rice (Hybrid)    | Cereal     | Low        |
-| Gram (broken)    | Pulse      | Medium     |
-| Egg Farm-Red     | Protein    | Medium     |
-| Egg Duck-Local   | Protein    | Low        |
+Model      Type                 Key Configuration / Hyperparameters
+ARIMA      Statistical          Order (p,d,q) selected via AIC using pmdarima.auto_arima; differencing order d from ADF test.
+SVR        Kernel-based         RBF kernel; C in {0.1,1,10,100}, epsilon in {0.01,0.1,0.5}; 5-fold time-series cross-validation.
+MLP        Feed-forward NN      Two hidden layers (64,32), ReLU activation; Adam (lr=0.001); early stopping (patience=10).
+RNN        Simple recurrent NN  One hidden layer (128 units), dropout 0.2, linear output; Adam (lr=0.001); early stopping.
+LSTM       Long Short-Term Memory One hidden layer (128 units), dropout 0.2; Adam (lr=0.001); early stopping.
+GRU        Gated Recurrent Unit One hidden layer (128 units), dropout 0.2; Adam (lr=0.001); early stopping.
+XGBoost    Tree boosting        500 trees, learning rate 0.1, max depth 6, L1=0.1, L2=1.0, subsample 0.8; early stopping after 100 rounds.
+ESN        Reservoir computing  Reservoir size 500, spectral radius 0.9, connectivity 0.1; ridge regression readout (lambda = 1e-6).
 
----
+For recurrent models (RNN, LSTM, GRU), batch size is 64, and training runs for up to 50 epochs with early stopping on a 20% validation split. ARIMA uses a fixed-origin forecast: the model is trained once on the first 80% of the data and then applied to the entire test set.
 
-## Models Implemented
+EVALUATION METRICS
 
-All models use lag-based supervised learning (T = 10 weeks).
+Four complementary metrics are reported for each model-commodity pair:
 
-| Model   | Type        | Key Details |
-|--------|-------------|------------|
-| ARIMA  | Statistical | Auto-selected (p,d,q) |
-| SVR    | ML          | RBF kernel |
-| MLP    | Neural Net  | Dense layers (64,32) |
-| RNN    | Deep Learning | 128 units |
-| LSTM   | Deep Learning | 128 units |
-| GRU    | Deep Learning | 128 units |
-| XGBoost| Boosting    | 500 trees |
-| ESN    | Reservoir   | Size 500 |
+1. RMSE (Root Mean Squared Error) – sensitive to large errors.
+2. RNMSE (RMSE normalized by the series mean) – enables cross-commodity comparison.
+3. MAE (Mean Absolute Error) – average absolute deviation.
+4. MAPE (Mean Absolute Percentage Error, %) – intuitive percentage error.
 
----
+All pairwise model comparisons are subjected to the Diebold-Mariano test (p < 0.05) to determine whether observed differences in predictive accuracy are statistically significant rather than due to sampling variation.
 
-## Evaluation Metrics
+KEY FINDINGS (SUMMARY)
 
-- RMSE  
-- RNMSE  
-- MAE  
-- MAPE  
+Commodity            Best Performing Model   MAPE (%)
+Onion (local)        GRU                     17.59
+Tomato               RNN                     20.20
+Rice (Boro Hybrid)   GRU                     1.30
+Gram (broken)        GRU                     10.50
+Egg Farm-Red         MLP                     11.16
+Egg Duck-Local       GRU                     1.87
 
-Statistical validation is done using the Diebold-Mariano test.
+Additional observations:
 
----
+- GRU achieves the lowest MAPE on three commodities (Onion, Gram, Egg Duck-Local).
+- RNN yields the lowest average MAPE (12.94%) across all six commodities.
+- ARIMA performs competitively on low-volatility commodities (Rice MAPE: 1.91%; Duck Egg: 3.41%) but fails on high-volatility vegetables.
+- Diebold-Mariano tests confirm that deep learning models (GRU, RNN, LSTM) significantly outperform ARIMA and SVR on high-volatility series (p < 0.05).
 
-## Key Findings
+Complete RMSE, RNMSE, MAE, and MAPE tables (Tables III–VI in the paper) are reproduced by running the provided notebooks.
 
-| Commodity      | Best Model | MAPE |
-|---------------|------------|------|
-| Onion         | GRU        | 17.59 |
-| Tomato        | RNN        | 20.20 |
-| Rice          | GRU        | 1.30  |
-| Gram          | GRU        | 10.50 |
-| Egg Farm      | MLP        | 11.16 |
-| Egg Duck      | GRU        | 1.87  |
+REPRODUCIBILITY INSTRUCTIONS
 
-### Insights
+Prerequisites:
 
-- GRU performs best on most commodities  
-- RNN gives best average performance  
-- ARIMA works well for low volatility data  
-- Deep learning models dominate high volatility series  
+- Python 3.8 or higher
+- Required packages: numpy, pandas, matplotlib, seaborn, scikit-learn, statsmodels, pmdarima, tensorflow, xgboost
 
----
+Steps:
 
-## How to Run
+1. Clone the repository:
+   git clone https://github.com/RummanShahriar/Agricultural-Commodity-Price-Forecasting-in-Bangladesh.git
+   cd Agricultural-Commodity-Price-Forecasting-in-Bangladesh
 
-### 1. Clone Repository
+2. Install dependencies:
+   pip install numpy pandas matplotlib seaborn scikit-learn statsmodels pmdarima tensorflow xgboost
 
-```bash
-git clone https://github.com/RummanShahriar/Agricultural-Commodity-Price-Forecasting-in-Bangladesh.git
-cd Agricultural-Commodity-Price-Forecasting-in-Bangladesh
-````
+3. Run the notebooks:
+   - Each_commodity_EDA_+_Each_Model_Result_Analysis.ipynb: Performs exploratory data analysis, stationarity tests (ADF/KPSS), and per-commodity model evaluation.
+   - Final_Pipeline_(Conference_Paper).ipynb: Executes the complete end-to-end pipeline including data loading, preprocessing, model training, evaluation, Diebold-Mariano tests, and generation of result tables and figures (MAPE heatmap, GRU prediction plots).
 
-### 2. Install Requirements
+All output tables and figures will match those presented in the paper.
 
-```bash
-pip install numpy pandas matplotlib seaborn scikit-learn statsmodels pmdarima tensorflow xgboost
-```
+DEPENDENCIES
 
-### 3. Run Notebooks
+The environment requires the following core libraries (versions used in the original experiments are noted in parentheses, but later versions are expected to work):
 
-* `Each_commodity_EDA_Model_Analysis.ipynb`
-* `Final_Pipeline_Conference.ipynb`
+- Python 3.8+
+- pandas (1.5+)
+- numpy (1.23+)
+- scikit-learn (1.2+)
+- statsmodels (0.14+)
+- pmdarima (2.0+)
+- tensorflow (2.12+)
+- xgboost (1.7+)
+- matplotlib (3.6+)
+- seaborn (0.12+)
 
----
+CITATION
 
-## Dependencies
+If you use this code, data, or findings in your research, please cite the original paper:
 
-* Python 3.8+
-* pandas
-* numpy
-* scikit-learn
-* statsmodels
-* pmdarima
-* tensorflow
-* xgboost
-* matplotlib
-* seaborn
-
----
-
-## Citation
-
-```bibtex
 @inproceedings{rumman2026agricultural,
   title     = {Agricultural Commodity Price Forecasting in Bangladesh: A Comparative Multi-Model Study with Statistical Significance Testing},
   author    = {Rumman Shahriar and others},
-  booktitle = {ICEFONT},
+  booktitle = {International Conference on Emerging Frontiers in Networking and Telecommunications (ICEFONT)},
   year      = {2026}
 }
-```
 
----
+ACKNOWLEDGMENTS
 
-## Acknowledgments
+This work was supported by the Improving Computer and Software Engineering Tertiary Education Project (ICSETEP) under the University Grants Commission (UGC) and the Secondary and Higher Education Division (SHED) of the Ministry of Education, Dhaka, Bangladesh (Sub-project PIN: C-53). The authors thank the Bangladesh Directorate of Agricultural Marketing (DAM) for providing the wholesale price data.
 
-Supported by ICSETEP (UGC, Bangladesh) and DAM for data access.
+LICENSE
 
----
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-## License
-
-MIT License
-
----
-
-## Contact
+CONTACT
 
 Rumman Shahriar
-GitHub: [https://github.com/RummanShahriar](https://github.com/RummanShahriar)
-
-```
-```
+GitHub: RummanShahriar (https://github.com/RummanShahriar)
+For academic inquiries, please refer to the contact information in the paper.
