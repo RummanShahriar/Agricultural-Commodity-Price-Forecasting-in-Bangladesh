@@ -1,4 +1,3 @@
-```markdown
 # Agricultural Commodity Price Forecasting in Bangladesh
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
