@@ -9,7 +9,6 @@
 This repository provides the official implementation and replication package for the paper:
 
 > **"Agricultural Commodity Price Forecasting in Bangladesh: A Comparative Multi-Model Study with Statistical Significance Testing"**  
-> *Accepted at ICEFONT 2026.*
 
 The study benchmarks eight forecasting models—**ARIMA, SVR, MLP, RNN, LSTM, GRU, XGBoost, and Echo State Network (ESN)**—using weekly wholesale price data of six agricultural commodities in Bangladesh. Data are sourced from the **Bangladesh Directorate of Agricultural Marketing (DAM)** covering January 2022 to February 2026 across all eight administrative divisions, 64 districts, and more than 400 market locations. All model comparisons are validated with **Diebold-Mariano statistical significance tests**.
 
