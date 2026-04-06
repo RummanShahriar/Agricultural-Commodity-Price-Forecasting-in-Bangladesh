@@ -6,7 +6,6 @@
 This repository provides the official implementation and replication package for the paper:
 
 **"Agricultural Commodity Price Forecasting in Bangladesh: A Comparative Multi-Model Study with Statistical Significance Testing"**  
-*Accepted at ICEFONT 2026.*
 
 The study benchmarks eight forecasting models—ARIMA, Support Vector Regression (SVR), Multi-Layer Perceptron (MLP), Simple Recurrent Neural Network (RNN), Long Short-Term Memory (LSTM), Gated Recurrent Unit (GRU), XGBoost, and Echo State Network (ESN)—using weekly wholesale price data of six agricultural commodities in Bangladesh. Data are sourced from the Bangladesh Directorate of Agricultural Marketing (DAM) covering January 2022 to February 2026 across all eight administrative divisions, 64 districts, and more than 400 market locations. All model comparisons are validated with Diebold-Mariano statistical significance tests.
 
@@ -15,6 +14,7 @@ The key outcomes indicate that GRU achieves the lowest MAPE for three commoditie
 ## Repository Structure
 
 ```
+
 Agricultural-Commodity-Price-Forecasting-in-Bangladesh/
 │
 ├── Dataset/                              # Raw weekly price data (CSV)
@@ -26,12 +26,13 @@ Agricultural-Commodity-Price-Forecasting-in-Bangladesh/
 │   └── Egg Duck-Local.csv
 │
 ├── codes/                                # Jupyter notebooks
-│   ├── Each_commodity_EDA_+_Each_Model_Result_Analysis.ipynb
-│   └── Final_Pipeline_(Conference_Paper).ipynb
+│   ├── Each_commodity_EDA_+*Each_Model_Result_Analysis.ipynb
+│   └── Final_Pipeline*(Conference_Paper).ipynb
 │
 ├── ICEFONT_2026_Rumman_paper_v1_2.pdf    # Full conference paper
 └── README.md                             # This file
-```
+
+````
 
 ## Dataset Description
 
@@ -118,42 +119,40 @@ Complete RMSE, RNMSE, MAE, and MAPE tables (Tables III–VI in the paper) are re
    ```bash
    git clone https://github.com/RummanShahriar/Agricultural-Commodity-Price-Forecasting-in-Bangladesh.git
    cd Agricultural-Commodity-Price-Forecasting-in-Bangladesh
-   ```
+````
 
 2. **Install dependencies**
+
    ```bash
    pip install numpy pandas matplotlib seaborn scikit-learn statsmodels pmdarima tensorflow xgboost
    ```
 
 3. **Run the notebooks**
-   - `Each_commodity_EDA_+_Each_Model_Result_Analysis.ipynb`: Performs exploratory data analysis, stationarity tests (ADF/KPSS), and per-commodity model evaluation.
-   - `Final_Pipeline_(Conference_Paper).ipynb`: Executes the complete end-to-end pipeline including data loading, preprocessing, model training, evaluation, Diebold-Mariano tests, and generation of result tables and figures (MAPE heatmap, GRU prediction plots).
+
+   * `Each_commodity_EDA_+_Each_Model_Result_Analysis.ipynb`
+   * `Final_Pipeline_(Conference_Paper).ipynb`
 
 All output tables and figures will match those presented in the paper.
 
 ## Dependencies
 
-The environment requires the following core libraries (versions used in the original experiments are noted in parentheses, but later versions are expected to work):
-
-- Python 3.8+
-- pandas (1.5+)
-- numpy (1.23+)
-- scikit-learn (1.2+)
-- statsmodels (0.14+)
-- pmdarima (2.0+)
-- tensorflow (2.12+)
-- xgboost (1.7+)
-- matplotlib (3.6+)
-- seaborn (0.12+)
+* Python 3.8+
+* pandas (1.5+)
+* numpy (1.23+)
+* scikit-learn (1.2+)
+* statsmodels (0.14+)
+* pmdarima (2.0+)
+* tensorflow (2.12+)
+* xgboost (1.7+)
+* matplotlib (3.6+)
+* seaborn (0.12+)
 
 ## Citation
-
-If you use this code, data, or findings in your research, please cite the original paper:
 
 ```bibtex
 @inproceedings{rumman2026agricultural,
   title     = {Agricultural Commodity Price Forecasting in Bangladesh: A Comparative Multi-Model Study with Statistical Significance Testing},
-  author    = {Rumman Shahriar and [Full author names as per final paper]},
+  author    = {Rumman Shahriar and others},
   booktitle = {International Conference on Emerging Frontiers in Networking and Telecommunications (ICEFONT)},
   year      = {2026}
 }
@@ -169,7 +168,8 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ## Contact
 
-**Rumman Shahriar**  
-GitHub: [RummanShahriar](https://github.com/RummanShahriar)  
-For academic inquiries, please refer to the contact information in the paper.
+**Rumman Shahriar**
+GitHub: [https://github.com/RummanShahriar](https://github.com/RummanShahriar)
+
+```
 ```
