@@ -1,5 +1,3 @@
-Here is the revised `README.md` without emojis, more detailed, professional, crisp, and robust.
-
 ```markdown
 # Agricultural Commodity Price Forecasting in Bangladesh
 
@@ -175,5 +173,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 GitHub: [RummanShahriar](https://github.com/RummanShahriar)  
 For academic inquiries, please refer to the contact information in the paper.
 ```
-
-This version removes all emojis, expands details on dataset preprocessing, model configurations, evaluation protocol, and reproducibility steps, while maintaining a crisp and professional tone.
