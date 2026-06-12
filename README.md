@@ -4,17 +4,18 @@
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.12+-orange.svg)](https://tensorflow.org)
 
-## Methodology Overview
-
-![Data preparation, training and evaluation pipeline](Images/methodology4-single_color.png)
-*Figure 1: Complete forecasting methodology – from raw data preprocessing through model training to statistical evaluation (Diebold‑Mariano test).*
-
 ## Model Architectures
 
 Schematic representations of the eight forecasting models used in this study: ARIMA, SVR, MLP, RNN, LSTM, GRU, XGBoost, and Echo State Network (ESN).
 
 ![Architecture diagrams of all models](Images/2.png)
 *Figure 2: Simplified architectures – from statistical (ARIMA) to reservoir computing (ESN).*
+
+
+## Methodology Overview
+
+![Data preparation, training and evaluation pipeline](Images/methodology4-single_color.png)
+*Figure 1: Complete forecasting methodology – from raw data preprocessing through model training to statistical evaluation (Diebold‑Mariano test).*
 
 ## GRU Forecast Visualisations
 
@@ -23,16 +24,13 @@ The following figures show the **GRU model’s one‑step‑ahead predictions** 
 ![GRU actual vs predicted](Images/gru2.png)
 *Figure 3: GRU predicted prices versus observed wholesale prices (example commodity).*
 
-![GRU residuals or error analysis](Images/gru3.png)
-*Figure 4: Residual plot or error density for GRU forecasts – note the low bias.*
-
 ## Model Performance Heatmap
 
 The heatmap below visualises the **Mean Absolute Percentage Error (MAPE)** for every model‑commodity pair.  
 Darker colours indicate lower prediction errors.
 
 ![MAPE heatmap across all models and commodities](Images/heatmap.png)
-*Figure 5: MAPE (%) – GRU achieves the lowest error for three commodities (Onion, Gram, Duck Egg).*
+*Figure 4: MAPE (%) – GRU achieves the lowest error for three commodities (Onion, Gram, Duck Egg).*
 
 ## Overview
 
