@@ -9,13 +9,13 @@
 Schematic representations of the eight forecasting models used in this study: ARIMA, SVR, MLP, RNN, LSTM, GRU, XGBoost, and Echo State Network (ESN).
 
 ![Architecture diagrams of all models](Images/2.png)
-*Figure 2: Simplified architectures – from statistical (ARIMA) to reservoir computing (ESN).*
+*Figure 1: Simplified architectures – from statistical (ARIMA) to reservoir computing (ESN).*
 
 
 ## Methodology Overview
 
 ![Data preparation, training and evaluation pipeline](Images/methodology4-single_color.png)
-*Figure 1: Complete forecasting methodology – from raw data preprocessing through model training to statistical evaluation (Diebold‑Mariano test).*
+*Figure 2: Complete forecasting methodology – from raw data preprocessing through model training to statistical evaluation (Diebold‑Mariano test).*
 
 ## GRU Forecast Visualisations
 
