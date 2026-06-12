@@ -4,6 +4,16 @@
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.12+-orange.svg)](https://tensorflow.org)
 
+## GRU Forecast Visualisations
+
+The following figures show the **GRU model’s one‑step‑ahead predictions** against actual prices, and the corresponding residual (error) distribution.
+
+![GRU actual vs predicted](Images/gru2.png)
+*Figure 3: GRU predicted prices versus observed wholesale prices (example commodity).*
+
+![GRU residuals or error analysis](Images/gru3.png)
+*Figure 4: Residual plot or error density for GRU forecasts – note the low bias.*
+
 ## Overview
 
 This repository provides the official implementation and replication package for the paper:
